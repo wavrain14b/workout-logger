@@ -1,0 +1,77 @@
+:root{
+    --primary-color: #00c3ff;
+    --background-color: rgb(43, 43, 43);
+    --secondary-color: red;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background-color);
+}
+
+/* calendar styling */
+.calendar-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* space between month, calendar, buttons */
+    margin-top: -400px;
+}
+
+.month-name{
+    display: flex;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 20px;
+    border-radius: 5px;
+    border-color: var(--secondary-color);
+}
+
+.calendar{
+    display: grid;
+    grid-template-columns: repeat(7, 40px);
+    gap: 5px;
+}
+
+.cell{
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cell:hover{
+    border: 3px solid var(--secondary-color);
+    color: var(--secondary-color);
+    background-color: var(--background-color);
+    transition: 0.2s ease;
+}
+
+/* button styling */
+.next-month-btn{
+    border: 3px solid var(--primary-color);
+    position: relative;
+    cursor: pointer;
+    background-color: var(--background-color);
+}
+
+.next-month-btn svg{
+    
+}
+
+.prev-month-btn{
+    border: 3px solid var(--primary-color);
+    position: relative;
+    cursor: pointer;
+    background-color: var(--background-color);
+}

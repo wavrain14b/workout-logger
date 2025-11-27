@@ -65,13 +65,10 @@ body{
     background-color: var(--background-color);
 }
 
-.next-month-btn svg{
-    
-}
-
 .prev-month-btn{
     border: 3px solid var(--primary-color);
     position: relative;
     cursor: pointer;
     background-color: var(--background-color);
 }
+

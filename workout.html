@@ -4,13 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workout</title>
-    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="styleUI.css"> 
 
 </head>
 <body>
     
-    <div class ="workout-date-clicked"></div>
-    <div class = "display-workouts"></div>
+    <div class="main-container">
+
+        <!-- top: date -->
+        <div class="workout-date-clicked"></div>
+
+        <!-- box for user interaction -->
+        <div class="user-interface-container">
+            <p>Description or sum<p>
+            <button class = "add-workout-btn">Add workout</button>
+            <div class = "individual-workouts-container">
+                <datalist id="workouts">
+                    <option value="Bench Press">
+                    <option value="Squat">
+                    <option value="Deadlift">
+                </datalist>
+            </div>
+        </div>
+
+        
+
+    </div>
+
 
     <script src = "workout.js"></script>
 

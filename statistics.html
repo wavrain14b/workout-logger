@@ -15,22 +15,62 @@
         </button>
     </a>
 
-    <div class = "volume-container">
-        <button id="weeklyBtn">Weekly Volume</button>
-        <button id="monthlyBtn">Monthly Volume</button>
-        <canvas id="volumeChart" width="600" height="400"></canvas>
+    <div class = "main-container">
+        
+        <div class = "individual-workouts-container">
+            <datalist id="workouts"> </datalist>
+             <input id="workout-name-input" 
+                    list="workouts" 
+                    placeholder="Select a workout" 
+                    value="Bench Press">
+        </div>
+
+        <div class = "graphs-container">
+            <!-- GRAPHS -->
+            <div class = "volume-container">
+                <button id="weeklyBtn">Weekly Volume</button>
+                <button id="monthlyBtn">Monthly Volume</button>
+                <canvas id="volumeChart" width="600" height="400"></canvas>
+            </div>
+            
+            <canvas id="totalsChart" width="600" height="400"></canvas>
+            <canvas id="oneRMChart"></canvas>
+
+            <canvas id="weeklyChart"></canvas>
+            <canvas id="avgWorkoutLoad"></canvas>
+        </div>
+
     </div>
 
-    <div class = "totals-container">
-        <!-- add place to customize the totals displayed -->
-        <canvas id="totalsChart" width="600" height="400"></canvas>
-    </div>
-
-    <canvas id="oneRMChart"></canvas>
-    <canvas id="weeklyChart"></canvas>
-    <canvas id="avgWorkoutLoad"></canvas>
 
      <!-- Load Chart.js first -->
+    <script>
+        const workoutList = [
+            "Bench Press",
+            "Squat",
+            "Deadlift",
+            "OHP",
+            "Pull Ups",
+            "Rows",
+            "Lunges",
+            "Curls",
+            "Dips",
+            "Leg Press",
+            "Incline Bench",
+            "Hammer Curls",
+            "Tricep Pushdowns",
+            "Push ups"
+        ];
+
+        const datalist = document.getElementById("workouts");
+
+        // Create <option> for each workout
+        workoutList.forEach(workout => {
+            const option = document.createElement("option");
+            option.value = workout;
+            datalist.appendChild(option);
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="statistics.js"></script>
 

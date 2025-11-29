@@ -1,210 +1,20 @@
 // JS for making graphs in statistics html
 
 // FILLER DATA 
-const data = {
-  "2025-09-29": [
-    { name: "Bench Press", sets: [{weight: 225, reps: 6}, {weight: 245, reps: 4}, {weight: 265, reps: 2}] },
-    { name: "Pull Ups", sets: [{weight: 0, reps: 10}, {weight: 0, reps: 8}] }
-  ],
-  "2025-09-30": [
-    { name: "Squat", sets: [{weight: 275, reps: 5}, {weight: 295, reps: 3}] },
-    { name: "Lunges", sets: [{weight: 50, reps: 10}, {weight: 50, reps: 10}] }
-  ],
-  "2025-10-01": [
-    { name: "OHP", sets: [{weight: 115, reps: 5}, {weight: 125, reps: 3}] },
-    { name: "Bench Press", sets: [{weight: 205, reps: 8}, {weight: 225, reps: 5}] }
-  ],
-  "2025-10-02": [
-    { name: "Deadlift", sets: [{weight: 365, reps: 3}, {weight: 405, reps: 2}] }
-  ],
-  "2025-10-03": [
-    { name: "Bench Press", sets: [{weight: 245, reps: 5}, {weight: 265, reps: 3}] },
-    { name: "Rows", sets: [{weight: 185, reps: 8}, {weight: 185, reps: 8}] }
-  ],
-  "2025-10-04": [
-    { name: "Pull Ups", sets: [{weight: 25, reps: 5}, {weight: 25, reps: 4}] },
-    { name: "Curls", sets: [{weight: 35, reps: 10}] }
-  ],
-  "2025-10-05": [
-    { name: "Squat", sets: [{weight: 285, reps: 4}, {weight: 305, reps: 2}] }
-  ],
-  "2025-10-06": [
-    { name: "Bench Press", sets: [{weight: 225, reps: 8}, {weight: 245, reps: 5}] }
-  ],
-  "2025-10-07": [
-    { name: "Deadlift", sets: [{weight: 385, reps: 3}, {weight: 425, reps: 2}] }
-  ],
-  "2025-10-08": [
-    { name: "OHP", sets: [{weight: 115, reps: 6}, {weight: 135, reps: 2}] }
-  ],
-  "2025-10-09": [
-    { name: "Bench Press", sets: [{weight: 255, reps: 3}, {weight: 275, reps: 1}] }
-  ],
-  "2025-10-10": [
-    { name: "Rows", sets: [{weight: 195, reps: 8}, {weight: 195, reps: 8}] },
-    { name: "Pull Ups", sets: [{weight: 0, reps: 12}] }
-  ],
-  "2025-10-11": [
-    { name: "Squat", sets: [{weight: 275, reps: 6}, {weight: 295, reps: 4}] }
-  ],
-  "2025-10-12": [
-    { name: "Bench Press", sets: [{weight: 225, reps: 10}, {weight: 245, reps: 6}] }
-  ],
-  "2025-10-13": [
-    { name: "Deadlift", sets: [{weight: 395, reps: 3}, {weight: 415, reps: 2}] }
-  ],
-  "2025-10-14": [
-    { name: "OHP", sets: [{weight: 125, reps: 5}, {weight: 135, reps: 3}] }
-  ],
-  "2025-10-15": [
-    { name: "Bench Press", sets: [{weight: 260, reps: 3}, {weight: 275, reps: 2}] }
-  ],
-  "2025-10-16": [
-    { name: "Pull Ups", sets: [{weight: 35, reps: 4}, {weight: 35, reps: 3}] }
-  ],
-  "2025-10-17": [
-    { name: "Squat", sets: [{weight: 295, reps: 4}, {weight: 315, reps: 2}] }
-  ],
-  "2025-10-18": [
-    { name: "Bench Press", sets: [{weight: 235, reps: 8}, {weight: 255, reps: 5}] }
-  ],
-  "2025-10-19": [
-    { name: "Deadlift", sets: [{weight: 405, reps: 3}, {weight: 435, reps: 1}] }
-  ],
-  "2025-10-20": [
-    { name: "OHP", sets: [{weight: 115, reps: 7}, {weight: 125, reps: 4}] }
-  ],
-  "2025-10-21": [
-    { name: "Bench Press", sets: [{weight: 250, reps: 4}, {weight: 270, reps: 2}] }
-  ],
-  "2025-10-22": [
-    { name: "Pull Ups", sets: [{weight: 0, reps: 12}, {weight: 0, reps: 10}] }
-  ],
-  "2025-10-23": [
-    { name: "Squat", sets: [{weight: 285, reps: 5}, {weight: 305, reps: 3}] }
-  ],
-  "2025-10-24": [
-    { name: "Bench Press", sets: [{weight: 240, reps: 6}, {weight: 260, reps: 4}] }
-  ],
-  "2025-10-25": [
-    { name: "Deadlift", sets: [{weight: 395, reps: 3}, {weight: 415, reps: 2}] }
-  ],
-  "2025-10-26": [
-    { name: "OHP", sets: [{weight: 120, reps: 6}, {weight: 135, reps: 2}] }
-  ],
-  "2025-10-27": [
-    { name: "Bench Press", sets: [{weight: 255, reps: 3}, {weight: 275, reps: 1}] }
-  ],
-  "2025-10-28": [
-    { name: "Pull Ups", sets: [{weight: 25, reps: 5}, {weight: 25, reps: 4}] }
-  ],
-  "2025-10-29": [
-    { name: "Squat", sets: [{weight: 295, reps: 4}, {weight: 315, reps: 2}] }
-  ],
-  "2025-10-30": [
-    { name: "Bench Press", sets: [{weight: 245, reps: 5}, {weight: 265, reps: 3}] }
-  ],
-  "2025-10-31": [
-    { name: "Deadlift", sets: [{weight: 405, reps: 2}, {weight: 425, reps: 1}] }
-  ],
-  "2025-11-01": [
-    { name: "OHP", sets: [{weight: 115, reps: 7}, {weight: 125, reps: 4}] }
-  ],
-  "2025-11-02": [
-    { name: "Bench Press", sets: [{weight: 225, reps: 10}, {weight: 245, reps: 6}] }
-  ],
-  "2025-11-03": [
-    { name: "Pull Ups", sets: [{weight: 0, reps: 12}, {weight: 0, reps: 10}] }
-  ],
-  "2025-11-04": [
-    { name: "Squat", sets: [{weight: 285, reps: 5}, {weight: 305, reps: 3}] }
-  ],
-  "2025-11-05": [
-    { name: "Bench Press", sets: [{weight: 240, reps: 6}, {weight: 260, reps: 4}] }
-  ],
-  "2025-11-06": [
-    { name: "Deadlift", sets: [{weight: 395, reps: 3}, {weight: 415, reps: 2}] }
-  ],
-  "2025-11-07": [
-    { name: "OHP", sets: [{weight: 115, reps: 6}, {weight: 130, reps: 3}] }
-  ],
-  "2025-11-08": [
-    { name: "Bench Press", sets: [{weight: 250, reps: 4}, {weight: 270, reps: 2}] }
-  ],
-  "2025-11-09": [
-    { name: "Pull Ups", sets: [{weight: 35, reps: 4}, {weight: 25, reps: 5}] }
-  ],
-  "2025-11-10": [
-    { name: "Squat", sets: [{weight: 295, reps: 4}, {weight: 315, reps: 2}] }
-  ],
-  "2025-11-11": [
-    { name: "Bench Press", sets: [{weight: 235, reps: 8}, {weight: 255, reps: 5}] }
-  ],
-  "2025-11-12": [
-    { name: "Deadlift", sets: [{weight: 405, reps: 2}, {weight: 425, reps: 1}] }
-  ],
-  "2025-11-13": [
-    { name: "OHP", sets: [{weight: 125, reps: 5}, {weight: 135, reps: 2}] }
-  ],
-  "2025-11-14": [
-    { name: "Bench Press", sets: [{weight: 260, reps: 3}, {weight: 275, reps: 1}] }
-  ],
-  "2025-11-15": [
-    { name: "Rows", sets: [{weight: 185, reps: 8}, {weight: 185, reps: 8}] }
-  ],
-  "2025-11-16": [
-    { name: "Squat", sets: [{weight: 275, reps: 6}, {weight: 305, reps: 3}] }
-  ],
-  "2025-11-17": [
-    { name: "Bench Press", sets: [{weight: 225, reps: 10}, {weight: 245, reps: 6}] }
-  ],
-  "2025-11-18": [
-    { name: "Deadlift", sets: [{weight: 395, reps: 3}, {weight: 415, reps: 2}] }
-  ],
-  "2025-11-19": [
-    { name: "OHP", sets: [{weight: 115, reps: 7}, {weight: 135, reps: 2}] }
-  ],
-  "2025-11-20": [
-    { name: "Bench Press", sets: [{weight: 250, reps: 4}, {weight: 270, reps: 2}] }
-  ],
-  "2025-11-21": [
-    { name: "Pull Ups", sets: [{weight: 0, reps: 12}, {weight: 0, reps: 10}] }
-  ],
-  "2025-11-22": [
-    { name: "Squat", sets: [{weight: 285, reps: 5}, {weight: 305, reps: 3}] }
-  ],
-  "2025-11-23": [
-    { name: "Bench Press", sets: [{weight: 245, reps: 5}, {weight: 265, reps: 3}] }
-  ],
-  "2025-11-24": [
-    { name: "Deadlift", sets: [{weight: 405, reps: 2}, {weight: 435, reps: 1}] }
-  ],
-  "2025-11-25": [
-    { name: "OHP", sets: [{weight: 115, reps: 6}, {weight: 130, reps: 3}] }
-  ],
-  "2025-11-26": [
-    { name: "Bench Press", sets: [{weight: 260, reps: 3}, {weight: 275, reps: 1}] }
-  ],
-  "2025-11-27": [
-    { name: "Pull Ups", sets: [{weight: 25, reps: 5}, {weight: 25, reps: 4}] }
-  ],
-  "2025-11-28": [
-    { name: "Bench Press", sets: [{weight: 225, reps: 10}, {weight: 245, reps: 6}] }
-  ]
-};
-localStorage.setItem("workouts", JSON.stringify(data));
-
 // NOTES: how data is stored for ref
 // data -> key: date ("2025-11-28");
 // [{ name: "Bench", 
 // Sets: [{weight: 200, reps: 10}, {weight: 225, reps: 5}] }], ...
 // 
-// const data = JSON.parse(localStorage.getItem("workouts")) || {};
+const data = JSON.parse(localStorage.getItem("workouts")) || {};
 
 let today = new Date(); 
 let currentYear = today.getFullYear();
 let currentMonth = today.getMonth(); 
 let currentDay = today.getDate(); 
+
+const liftInput = document.getElementById("workout-name-input");
+const selectedLiftName = liftInput.value; 
 
 if (Object.keys(data).length === 0) {
     const todayStr = getDateXDaysAgo(0);
@@ -289,7 +99,7 @@ function estimatedOneRepMax(workoutName, date) {
 // ----------------- Compute daily volume -----------------
 document.addEventListener("DOMContentLoaded", () => {
     const vol = document.getElementById("volumeChart").getContext("2d");
-
+    let selectedLiftName = liftInput.value || "Bench Press";
 
 // ------------------------VOLUME ---------------------------------
     // ---- WEEKLY DATA ----
@@ -380,14 +190,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return monthlyVolume;
     }
 
-    let weeklyTotals = getWeeklyTotals("Bench Press"); // default lift
+    let weeklyTotals = getWeeklyTotals(selectedLiftName); // default lift
+    const disTotalsText = "Weekly Totals for " + selectedLiftName + " (Last 7 Days)";
 
     const totalsChart = new Chart(totalsCh, {
         type: "line",
         data: {
             labels: Object.keys(weeklyTotals),
             datasets: [{
-                label: "Totals",
+                label: "1RM",
                 data: Object.values(weeklyTotals),
                 borderColor: "blue",
                 backgroundColor: "rgba(0,0,255,0.2)",
@@ -400,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
             plugins: {
                 title: {
                     display: true,
-                    text: "Weekly Totals (Last 7 Days)"
+                    text: disTotalsText
                 }
             },
             scales: {
@@ -451,14 +262,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return monthlyOneRM;
     }
 
-    let oneRepMax = getOneRMWeekly("Bench Press"); // default lift
+    let oneRepMax = getOneRMWeekly(selectedLiftName); // default lift
+    const disEstText = "Weekly 1RM estimates " + selectedLiftName + " (Last 7 Days)";
 
     const oneRMChart = new Chart(oneRMCh, {
         type: "line",
         data: {
             labels: Object.keys(oneRepMax),
             datasets: [{
-                label: "Totals",
+                label: "One rep max estimate",
                 data: Object.values(oneRepMax),
                 borderColor: "blue",
                 backgroundColor: "rgba(0,0,255,0.2)",
@@ -471,7 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
             plugins: {
                 title: {
                     display: true,
-                    text: "Weekly One RM (Last 7 Days)"
+                    text: disEstText
                 }
             },
             scales: {
@@ -479,7 +291,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
-
 
 // ---- BUTTON FUNCTIONALITY ----
     document.getElementById("weeklyBtn").addEventListener("click", () => {
@@ -490,16 +301,16 @@ document.addEventListener("DOMContentLoaded", () => {
         volumeChart.options.plugins.title.text = "Weekly Volume (Last 7 Days)";
         volumeChart.update();
         // totals data
-        const tData = getWeeklyTotals("Bench Press");
+        const tData = getWeeklyTotals(selectedLiftName);
         totalsChart.data.labels = Object.keys(tData);
         totalsChart.data.datasets[0].data = Object.values(tData);
-        totalsChart.options.plugins.title.text = "Weekly Totals (Last 7 Days)";
+        totalsChart.options.plugins.title.text = "Weekly Totals for " + selectedLiftName + " (Last 7 Days)";
         totalsChart.update();
         // 1RM data
-        const oData = getOneRMWeekly("Bench Press");
+        const oData = getOneRMWeekly(selectedLiftName);
         oneRMChart.data.labels = Object.keys(oData);
         oneRMChart.data.datasets[0].data = Object.values(oData);
-        oneRMChart.options.plugins.title.text = "Weekly 1RM (Last 7 Days)";
+        oneRMChart.options.plugins.title.text = "Weekly 1RM Estimation for " + selectedLiftName + " (Last 7 Days)";
         oneRMChart.update();
     });
 
@@ -511,16 +322,36 @@ document.addEventListener("DOMContentLoaded", () => {
         volumeChart.options.plugins.title.text = "Monthly Volume";
         volumeChart.update();
         // totals data
-        const tData = getMonthlyTotals("Bench Press");
+        const tData = getMonthlyTotals(selectedLiftName);
         totalsChart.data.labels = Object.keys(tData);
         totalsChart.data.datasets[0].data = Object.values(tData);
-        totalsChart.options.plugins.title.text = "Monthly Totals";
+        totalsChart.options.plugins.title.text = "Monthly Totals for " + selectedLiftName;
         totalsChart.update();
         // 1RM data
-        const oData = getOneRMMonthly("Bench Press");
+        const oData = getOneRMMonthly(selectedLiftName);
         oneRMChart.data.labels = Object.keys(oData);
         oneRMChart.data.datasets[0].data = Object.values(oData);
-        oneRMChart.options.plugins.title.text = "Monthly 1RM";
+        oneRMChart.options.plugins.title.text = "Monthly 1RM Estimation for " + selectedLiftName;
+        oneRMChart.update();
+    });
+
+
+    // Changing lift by input
+    liftInput.addEventListener("change", () => {
+        const selectedLiftName = liftInput.value;
+
+        // Update totals chart
+        const tData = getWeeklyTotals(selectedLiftName);
+        totalsChart.data.labels = Object.keys(tData);
+        totalsChart.data.datasets[0].data = Object.values(tData);
+        totalsChart.options.plugins.title.text = "Totals for " + selectedLiftName;
+        totalsChart.update();
+
+        // Update 1RM chart
+        const oData = getOneRMWeekly(selectedLiftName);
+        oneRMChart.data.labels = Object.keys(oData);
+        oneRMChart.data.datasets[0].data = Object.values(oData);
+        oneRMChart.options.plugins.title.text = "1RM estimate for " + selectedLiftName;
         oneRMChart.update();
     });
 

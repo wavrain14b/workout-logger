@@ -24,18 +24,41 @@
             </div>
 
             <div class = "individual-workouts-container">
-                <datalist id="workouts">
-                    <option value="Bench Press">
-                    <option value="Squat">
-                    <option value="Deadlift">
-                </datalist>
+                <datalist id="workouts"> </datalist>
             </div>
         </div>
 
     </div>
 
+    <script>
+        const workoutList = [
+            "Bench Press",
+            "Squat",
+            "Deadlift",
+            "OHP",
+            "Pull Ups",
+            "Rows",
+            "Lunges",
+            "Curls",
+            "Dips",
+            "Leg Press",
+            "Incline Bench",
+            "Hammer Curls",
+            "Tricep Pushdowns",
+            "Push ups"
+        ];
 
+        const datalist = document.getElementById("workouts");
+
+        // Create <option> for each workout
+        workoutList.forEach(workout => {
+            const option = document.createElement("option");
+            option.value = workout;
+            datalist.appendChild(option);
+        });
+    </script>
     <script src = "workout.js"></script>
+    
 
 </body>
 </html>

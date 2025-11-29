@@ -77,8 +77,12 @@ calendarCells.forEach(day => {
     calendar.appendChild(cell);
 
     cell.addEventListener("click", () => {
-        // navigate to new page
-        window.location.href = `workout.html?day=${day}&month=${currentMonth + 1}&year=${currentYear}`;
+        if(day ==null){
+            alert("You can't do that buddy!");
+        }else{
+            // navigate to new page
+            window.location.href = `workout.html?day=${day}&month=${currentMonth + 1}&year=${currentYear}`;
+        }
     });
 });
 

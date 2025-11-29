@@ -13,7 +13,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--background-color);
+    background-color: black;
 }
 
 /* calendar styling */
@@ -22,7 +22,7 @@ body{
     flex-direction: column;
     align-items: center;
     gap: 10px; /* space between month, calendar, buttons */
-    margin-top: -400px;
+    margin-top: -420px;
 }
 
 .month-name{
@@ -38,6 +38,13 @@ body{
     display: grid;
     grid-template-columns: repeat(7, 40px);
     gap: 5px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 320px; /* matches the width of the calendar grid */
 }
 
 .cell{

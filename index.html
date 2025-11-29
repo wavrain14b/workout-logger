@@ -9,22 +9,31 @@
 </head>
 <body>
 
-    <!-- calendar -->
-    <div class = "calendar-container">
-        <p class = "month-name"></p>
+    <div class = "main-container">
+        <!-- calendar -->
+         <a href="statistics.html">
+            <button>
+                charts
+            </button>
+        </a>
+        <div class = "calendar-container">
+            
+            <div class = "calendar-header">
+                <button class = "prev-month-btn">
+                    <svg fill="var(--primary-color)" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+                    </svg>
+                </button>
+                <p class = "month-name"></p>
+                <button class = "next-month-btn">
+                    <svg fill="var(--primary-color)" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                    </svg>
+                </button>
+            </div>
 
-        <div class = "calendar"></div>
-
-        <button class = "next-month-btn">
-            <svg fill="var(--primary-color)" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
-                <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
-            </svg>
-        </button>
-        <button class = "prev-month-btn">
-            <svg fill="var(--primary-color)" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
-                <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
-            </svg>
-        </button>
+            <div class = "calendar"></div>
+        </div>
     </div>
      
     

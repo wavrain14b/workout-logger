@@ -14,7 +14,7 @@ body{
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: var(--background-color);
+    background-color: black;
 }
 
 .main-container{
@@ -24,11 +24,13 @@ body{
     justify-content: center;
 }
 
+/* date styling */
 .display-date p{
     font-size: 40px;
     color: var(--primary-color);
 }
 
+/* +- workouts ui */
 .user-interface-container{
     height: 60vh; 
     width: 100%;
@@ -42,6 +44,3 @@ body{
     overflow-x: auto; 
 }
 
-.input-workout{
-    
-}

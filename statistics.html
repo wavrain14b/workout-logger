@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>statistics</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="statistics.js"></script> -->
+</head>
+<body>
+    
+    <a href="index.html">
+        <button>
+            Back to calendar
+        </button>
+    </a>
+
+    <div class = "volume-container">
+        <button id="weeklyBtn">Weekly Volume</button>
+        <button id="monthlyBtn">Monthly Volume</button>
+        <canvas id="volumeChart" width="600" height="400"></canvas>
+    </div>
+
+    <div class = "totals-container">
+        <!-- add place to customize the totals displayed -->
+        <canvas id="totalsChart" width="600" height="400"></canvas>
+    </div>
+
+    <canvas id="oneRMChart"></canvas>
+    <canvas id="weeklyChart"></canvas>
+    <canvas id="avgWorkoutLoad"></canvas>
+
+     <!-- Load Chart.js first -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="statistics.js"></script>
+
+</body>
+</html>

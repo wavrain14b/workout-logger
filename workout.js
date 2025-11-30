@@ -3,11 +3,22 @@
 
 // ---------------- VARIABLES ----------------
 const params = new URLSearchParams(window.location.search);
-const day = params.get("day");
-const month = params.get("month");
-const year = params.get("year");
+let day = params.get("day");
+let month = params.get("month");
+let year = params.get("year");
 
-const dateKey = `${year}-${month}-${day}`;  // LocalStorage key format
+// If no day/month/year provided, default to today
+if (!day || !month || !year) {
+    const today = new Date();
+    const todayDay = today.getDate();
+    const todayMonth = today.getMonth() + 1; 
+    const todayYear = today.getFullYear();
+
+    // Redirect WITH correct params
+    window.location.href = `workout.html?day=${todayDay}&month=${todayMonth}&year=${todayYear}`;
+}
+
+const dateKey = `${year}-${month}-${day}`;
 
 const dateClickedDiv = document.querySelector(".workout-date-clicked");
 const workoutsContainer = document.querySelector(".individual-workouts-container");
@@ -51,7 +62,7 @@ function addWorkout() {
 function addWorkoutUI(name) {
     const newWorkout = document.createElement("div");
     newWorkout.classList.add("workout-item");
-    
+
     newWorkout.innerHTML = `
         <input class="input-workout" list="workouts" placeholder="Enter workout name" value="${name}">
         <button class="edit-workout-btn">✏️ Edit</button>

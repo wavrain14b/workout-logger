@@ -1,39 +1,152 @@
+/* ---------------------------------- */
+/* COLOR VARIABLES                    */
+/* ---------------------------------- */
 :root{
-    --primary-color: #00c3ff;
-    --background-color: rgb(43, 43, 43);
-    --secondary-color: red;
+    --primary-color: #1b2632;
+    --background-color: #ffb162;
+    --card-bg: #ffffff;
+    --light-text: #555;
+    --accent: #1b2632;
+    --action-bg: #1b2632;
+    --action-text: #ffffff;
 }
 
+/* ---------------------------------- */
+/* GLOBAL RESET & BODY LAYOUT         */
+/* ---------------------------------- */
 html, body {
     height: 100%;
     margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
 }
 
 body{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    background-color: black;
 }
 
-/* calendar styling */
+/* ---------------------------------- */
+/* NAVBAR                             */
+/* ---------------------------------- */
+.navbar {
+    width: 100%;
+    height: 70px;
+    background: var(--card-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+}
+
+.logo {
+    font-size: 20px;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.nav-right a {
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.nav-right a:hover {
+    opacity: 0.6;
+}
+
+/* ---------------------------------- */
+/* MAIN PAGE CONTENT                  */
+/* ---------------------------------- */
+.main-container {
+    width: 100%;
+    max-width: 900px;
+    margin-top: 30px;
+    padding-bottom: 50px;
+}
+
+/* Greeting section */
+.greeting-section {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.greeting-section h2 {
+    margin: 10px 0 5px;
+    color: var(--primary-color);
+}
+
+.greeting-section p {
+    color: var(--light-text);
+}
+
+/* ---------------------------------- */
+/* TODAY CARD                         */
+/* ---------------------------------- */
+.today-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin: 0 auto 30px;
+    width: 90%;
+}
+
+.today-card h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.btn-primary {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 18px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    opacity: 0.8;
+}
+
+/* ---------------------------------- */
+/* CALENDAR WRAPPER                   */
+/* ---------------------------------- */
+.calendar-wrapper {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.calendar-wrapper h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+/* Your exact calendar styles preserved */
 .calendar-container{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px; /* space between month, calendar, buttons */
-    margin-top: -420px;
+    gap: 10px;
 }
 
+/* Month name */
 .month-name{
     display: flex;
     justify-content: center;
-    color: var(--primary-color);
     font-size: 20px;
-    border-radius: 5px;
-    border-color: var(--secondary-color);
+    color: var(--primary-color);
 }
 
+/* Calendar grid */
 .calendar{
     display: grid;
     grid-template-columns: repeat(7, 40px);
@@ -44,38 +157,65 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 320px; /* matches the width of the calendar grid */
+    width: 320px;
 }
 
+/* Calendar cells */
 .cell{
     width: 40px;
     height: 40px;
     border: 1px solid var(--primary-color);
     color: var(--primary-color);
+    background-color: var(--card-bg);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .cell:hover{
-    border: 3px solid var(--secondary-color);
-    color: var(--secondary-color);
-    background-color: var(--background-color);
+    border: 3px solid #eee9df;
+    color: var(--background-color);
+    background-color: red;
     transition: 0.2s ease;
 }
 
-/* button styling */
-.next-month-btn{
-    border: 3px solid var(--primary-color);
-    position: relative;
-    cursor: pointer;
-    background-color: var(--background-color);
-}
-
+/* Prev/Next buttons */
+.next-month-btn,
 .prev-month-btn{
     border: 3px solid var(--primary-color);
-    position: relative;
     cursor: pointer;
-    background-color: var(--background-color);
+    background-color: var(--card-bg);
+    padding: 4px;
+    border-radius: 6px;
 }
 
+.next-month-btn:hover,
+.prev-month-btn:hover {
+    background-color: #ddd;
+}
+
+/* ---------------------------------- */
+/* QUICK ACTIONS                      */
+/* ---------------------------------- */
+.quick-actions {
+    margin-top: 35px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 15px;
+}
+
+.action-btn {
+    display: block;
+    background: var(--action-bg);
+    color: var(--action-text);
+    text-align: center;
+    padding: 12px 0;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+}
+
+.action-btn:hover {
+    transform: scale(1.05);
+}

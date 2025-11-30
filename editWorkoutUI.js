@@ -1,9 +1,21 @@
 // --------------------------- VARIABLES ---------------------------
 const params = new URLSearchParams(window.location.search);
 
-const day = params.get("day");
-const month = params.get("month");
-const year = params.get("year");
+let day = params.get("day");
+let month = params.get("month");
+let year = params.get("year");
+
+// If no day/month/year provided, default to today
+if (!day || !month || !year) {
+    const today = new Date();
+    const todayDay = today.getDate();
+    const todayMonth = today.getMonth() + 1; 
+    const todayYear = today.getFullYear();
+
+    // Redirect WITH correct params
+    window.location.href = `workout.html?day=${todayDay}&month=${todayMonth}&year=${todayYear}`;
+}
+
 const dateKey = `${year}-${month}-${day}`;
 
 const workoutName = params.get("name");

@@ -1,46 +1,54 @@
-:root{
-    --primary-color: #00c3ff;
-    --background-color: rgb(43, 43, 43);
-    --secondary-color: red;
+.main-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-html, body {
-    height: 100%;
-    margin: 0;
+.workout-date-clicked h2 {
+    text-align: center;
+    color: #1b2632;
 }
 
-body{
+.user-interface-container p {
+    text-align: center;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.change-workout-buttons {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background-color: black;
+    justify-content: space-around;
+    margin-bottom: 15px;
 }
 
-.main-container{
+.change-workout-buttons button {
+    padding: 10px 20px;
+    background-color: #1b2632;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+.change-workout-buttons button:hover {
+    opacity: 0.8;
+}
+
+.individual-workouts-container input {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
 }
 
-/* date styling */
-.display-date p{
-    font-size: 40px;
-    color: var(--primary-color);
+.logged-workouts {
+    margin-top: 20px;
 }
 
-/* +- workouts ui */
-.user-interface-container{
-    height: 60vh; 
-    width: 100%;
-    background-color: var(--secondary-color);
-    display: flex;
-    flex-direction: column; 
-    gap: 10px;
-    margin-top: 10px;
-    /* scrollable */
-    overflow-y: auto;
-    overflow-x: auto; 
+.logged-list li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
 }
-

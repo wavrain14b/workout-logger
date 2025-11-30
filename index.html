@@ -4,40 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workout Logger</title>
-    <link rel="stylesheet" href="styles.css"> 
-    <!-- <script src = "calendar.js"></script> -->
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-    <div class = "main-container">
-        <!-- calendar -->
-         <a href="statistics.html">
-            <button>
-                charts
-            </button>
-        </a>
-        <div class = "calendar-container">
-            
-            <div class = "calendar-header">
-                <button class = "prev-month-btn">
-                    <svg fill="var(--primary-color)" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
-                        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
-                    </svg>
-                </button>
-                <p class = "month-name"></p>
-                <button class = "next-month-btn">
-                    <svg fill="var(--primary-color)" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
-                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
-                    </svg>
-                </button>
-            </div>
-
-            <div class = "calendar"></div>
+    <!-- ⭐ TOP NAV BAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <h1 class="logo">Workout Logger</h1>
         </div>
-    </div>
-     
-    
-     
-     <script src = "calendar.js"></script>
+
+        <div class="nav-right">
+            <a href="index.html">Dashboard</a>
+            <a href="workout.html">Log Workout</a>
+            <a href="statistics.html">Charts</a>
+            <a href="settings.html">Settings</a>
+        </div>
+    </nav>
+
+    <!-- ⭐ MAIN PAGE CONTENT -->
+    <main class="main-container">
+
+        <!-- Greeting -->
+        <section class="greeting-section">
+            <h2>Welcome Back</h2>
+            <p>Track your progress and stay consistent.</p>
+        </section>
+
+        <!-- TODAY'S SNAPSHOT CARD -->
+        <section class="today-card">
+            <h3>Today's Overview</h3>
+            <p>No workout logged yet.</p>
+            <a href="workout.html" class="btn-primary">Log Workout</a>
+        </section>
+
+        <!-- CALENDAR SECTION -->
+        <section class="calendar-wrapper">
+            <h3>Your Training Calendar</h3>
+
+            <div class="calendar-container">
+
+                <div class="calendar-header">
+                    <button class="prev-month-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+                            <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+                        </svg>
+                    </button>
+
+                    <p class="month-name"></p>
+
+                    <button class="next-month-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+                            <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="calendar"></div>
+            </div>
+        </section>
+
+        <!-- QUICK ACTIONS -->
+        <section class="quick-actions">
+            <a href="workout.html" class="action-btn">Log New Workout</a>
+            <a href="statistics.html" class="action-btn">View Charts</a>
+            <a href="weekly.html" class="action-btn">Weekly Summary</a>
+            <a href="settings.html" class="action-btn">Settings</a>
+        </section>
+
+    </main>
+
+    <script src="calendar.js"></script>
 </body>
 </html>

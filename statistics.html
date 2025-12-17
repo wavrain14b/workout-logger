@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>statistics</title>
+    <link rel="stylesheet" href="statistics.css">
     <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="statistics.js"></script> -->
 </head>
@@ -11,15 +12,30 @@
     
     <a href="index.html">
         <button>
-            Back to calendar
+            Back to main menu
         </button>
     </a>
+
+    <div class="date-filter">
+        <label>
+            Start:
+            <input type="date" id="startDate">
+        </label>
+
+        <label>
+            End:
+            <input type="date" id="endDate">
+        </label>
+
+        <button id="applyDateFilter">Apply</button>
+    </div>
+
 
     <div class = "main-container">
         
         <div class = "individual-workouts-container">
             <datalist id="workouts"> </datalist>
-             <input id="workout-name-input" 
+            <input id="workout-name-input" 
                     list="workouts" 
                     placeholder="Select a workout" 
                     value="Bench Press">
@@ -41,6 +57,7 @@
         </div>
 
     </div>
+
 
 
      <!-- Load Chart.js first -->

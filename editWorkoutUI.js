@@ -46,6 +46,9 @@ if (!workout) {
     save();
 }
 
+const workoutNameDis = document.querySelector(".workout-name");
+workoutNameDis.innerHTML = `${workoutName}`;
+
 // --------------------------- DISPLAY DATE ---------------------------
 const dateDisplay = `${getMonthName(month)} ${day} ${year}`;
 displayDate.innerHTML = `

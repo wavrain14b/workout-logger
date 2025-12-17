@@ -8,27 +8,46 @@
 
 </head>
 <body>
-    
+
     <div class="main-container">
 
-        <!-- top: date -->
-        <div class="workout-date-clicked"></div>
+        <a href="index.html">
+            <button>
+                Back to main menu
+            </button>
+        </a>
 
-        <!-- box for user interaction -->
-        <div class="user-interface-container">
-            <p>Description or sum<p>
-                
-            <div class = "change-workout-buttons">
-                <button class = "add-workout-btn">Add workout</button>
-                <button class = "minus-workout-btn">Minus workout</button>
-            </div>
-
-            <div class = "individual-workouts-container">
-                <datalist id="workouts"> </datalist>
-            </div>
+        <!-- DATE DISPLAY -->
+        <div class="workout-date-clicked">
+            <h2>November 30, 2025</h2>
         </div>
 
+        <!-- WORKOUT SELECTION CARD -->
+        <div class="user-interface-container">
+
+            <p>Select your workouts for today:</p>
+
+            <div class="change-workout-buttons">
+                <button class="add-workout-btn">Add Workout</button>
+                <button class="minus-workout-btn">Remove Workout</button>
+            </div>
+
+            <div class="individual-workouts-container">
+                <input list="workouts" placeholder="Choose a workout">
+                <datalist id="workouts"></datalist>
+            </div>
+
+            <!-- Optional: show workouts already logged -->
+            <div class="logged-workouts">
+                <h4>Workouts Logged Today:</h4>
+                <ul class="logged-list">
+                    <!-- JS will populate list here -->
+                </ul>
+            </div>
+
+        </div>
     </div>
+
 
     <script>
         const workoutList = [

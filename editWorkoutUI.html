@@ -3,25 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Lift</title>
+    <title>Edit Workout</title>
     <link rel="stylesheet" href="styleWorkoutUI.css"> 
 </head>
 <body>
     
-    <div class = "main-container">
+    <div class="main-container">
+        <div class = "traverse-buttons">
+            <a href="index.html">
+                <button>
+                    Back to main menu
+                </button>
+            </a>
+            <a href="workout.html">
+                <button>
+                    Back to workout screen
+                </button>
+            </a>
+        </div>
+        
+        <!-- TOP: DATE AND WORKOUT NAME -->
+        <div class="header-container">
+            <div class="date-display">November 30, 2025</div>
+            <div class="workout-name"></div>
+        </div>
 
-        <div class = "edit-workout-container">
+        <!-- CARD FOR SETS -->
+        <div class="edit-workout-container">
 
-            <div class = "date-display"></div>
-            <div class = "change-buttons-container">
-                <button class = "add-sets-btn">+</button>
-                <button class = "minus-sets-btn">-</button>
+            <!-- SETS LIST -->
+            <div class="sets-list">
+                <!-- JS dynamically adds sets here -->
             </div>
-            
+
+            <!-- ADD / REMOVE SET BUTTONS -->
+            <div class="change-buttons-container">
+                <button class="add-sets-btn">+ Add Set</button>
+                <button class="minus-sets-btn">- Remove Set</button>
+            </div>
+
+        </div>
+
+        <!-- OPTIONAL: Save button -->
+        <div class="save-container">
+            <button class="save-btn">Save Workout</button>
         </div>
 
     </div>
 
-    <script src = "editWorkoutUI.js"></script>
+    <script src="editWorkoutUI.js"></script>
 </body>
 </html>

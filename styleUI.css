@@ -1,54 +1,160 @@
-.main-container {
-    max-width: 600px;
-    margin: 50px auto;
-    background: #fff;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+/* ---------------------------------- */
+/* COLOR VARIABLES                    */
+/* ---------------------------------- */
+:root{
+    --primary-color: #007bff;
+    --background-color: #0f172a;;
+    --card-bg: #020617;
+    --light-text: #555;
+    --accent: #2563eb;
+    --action-bg: #1c65b3;
+    --action-text: #ffffff;
 }
 
+/* ---------------------------------- */
+/* GLOBAL BODY                        */
+/* ---------------------------------- */
+body {
+    margin: 0;
+    padding: 30px 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+}
+
+/* ---------------------------------- */
+/* MAIN CONTAINER                     */
+/* ---------------------------------- */
+.main-container {
+    max-width: 600px;
+    width: 90%;
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ---------------------------------- */
+/* BACK BUTTON                        */
+/* ---------------------------------- */
+.main-container > a button {
+    width: 100%;
+    padding: 12px;
+    background: var(--action-bg);
+    color: var(--action-text);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+}
+
+.main-container > a button:hover {
+    transform: scale(1.03);
+}
+
+/* ---------------------------------- */
+/* DATE DISPLAY                       */
+/* ---------------------------------- */
 .workout-date-clicked h2 {
     text-align: center;
-    color: #1b2632;
+    color: white;
+    margin: 0;
+    font-size: 22px;
+}
+
+/* ---------------------------------- */
+/* WORKOUT SELECTION CARD              */
+/* ---------------------------------- */
+.user-interface-container {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .user-interface-container p {
     text-align: center;
-    color: #555;
-    margin-bottom: 15px;
+    color: var(--light-text);
+    margin: 0 0 10px 0;
 }
 
+/* ---------------------------------- */
+/* ADD / REMOVE WORKOUT BUTTONS       */
+/* ---------------------------------- */
 .change-workout-buttons {
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 15px;
+    gap: 10px;
 }
 
 .change-workout-buttons button {
-    padding: 10px 20px;
-    background-color: #1b2632;
-    color: white;
-    border-radius: 8px;
+    flex: 1;
+    padding: 12px 0;
+    background: var(--action-bg);
+    color: var(--action-text);
     border: none;
+    border-radius: 10px;
+    font-weight: 500;
     cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
 .change-workout-buttons button:hover {
-    opacity: 0.8;
+    transform: scale(1.05);
 }
 
+/* ---------------------------------- */
+/* WORKOUT INPUT                       */
+/* ---------------------------------- */
 .individual-workouts-container input {
     width: 100%;
-    padding: 10px;
-    border-radius: 8px;
+    padding: 12px;
+    border-radius: 10px;
     border: 1px solid #ccc;
+    font-size: 14px;
+    text-align: center;
 }
 
-.logged-workouts {
-    margin-top: 20px;
+/* ---------------------------------- */
+/* LOGGED WORKOUTS                     */
+/* ---------------------------------- */
+.logged-workouts h4 {
+    margin: 0 0 10px 0;
+    color: var(--primary-color);
+}
+
+.logged-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .logged-list li {
-    padding: 5px 0;
-    border-bottom: 1px solid #eee;
+    padding: 8px 12px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    color: var(--primary-color);
+}
+
+/* Scrollbar styling */
+.logged-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.logged-list::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
 }

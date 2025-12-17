@@ -1,358 +1,255 @@
-// JS for making graphs in statistics html
+// =======================
+// STATISTICS PAGE SCRIPT
+// =======================
 
-// FILLER DATA 
+// FILLER DATA
 // NOTES: how data is stored for ref
-// data -> key: date ("2025-11-28");
-// [{ name: "Bench", 
-// Sets: [{weight: 200, reps: 10}, {weight: 225, reps: 5}] }], ...
-// 
+// data -> key: date ("2025-11-28")
+// value -> array of workouts
+// [
+//   {
+//     name: "Bench Press",
+//     sets: [{ weight: 200, reps: 10 }, { weight: 225, reps: 5 }]
+//   }
+// ]
+
 const data = JSON.parse(localStorage.getItem("workouts")) || {};
 
-let today = new Date(); 
-let currentYear = today.getFullYear();
-let currentMonth = today.getMonth(); 
-let currentDay = today.getDate(); 
-
+// ----------------------
+// DOM REFERENCES
+// ----------------------
 const liftInput = document.getElementById("workout-name-input");
-const selectedLiftName = liftInput.value; 
+const weeklyBtn = document.getElementById("weeklyBtn");
+const monthlyBtn = document.getElementById("monthlyBtn");
+const applyBtn = document.getElementById("applyDateFilter");
 
+const volumeCtx = document.getElementById("volumeChart").getContext("2d");
+const totalsCtx = document.getElementById("totalsChart").getContext("2d");
+const oneRMCtx = document.getElementById("oneRMChart").getContext("2d");
+
+// ----------------------
+// DATE FILTER STATE
+// ----------------------
+let dateFilter = {
+    start: null,
+    end: null
+};
+
+// ----------------------
+// SEED DATA (DEV ONLY)
+// ----------------------
 if (Object.keys(data).length === 0) {
-    const todayStr = getDateXDaysAgo(0);
-    data[todayStr] = [
-        { name: "Bench Press", sets: [{ weight: 225, reps: 10 }, { weight: 200, reps: 12 }] },
+    const today = getDateXDaysAgo(0);
+    data[today] = [
+        { name: "Bench Press", sets: [{ weight: 225, reps: 10 }] },
         { name: "Squat", sets: [{ weight: 315, reps: 5 }] }
     ];
     localStorage.setItem("workouts", JSON.stringify(data));
 }
 
-// chart elements
-// const volumeCanvas = document.getElementById("volumeChart").getContext("2d");
+// ----------------------
+// DATE HELPERS
+// ----------------------
 
-const stats = {
-    volumePerWeek: {},
-    volumePerMonth: {},
-    prs: {},
-    totals: {},
-    workoutFrequency: {},
-    setsPerWeek: 0,
-    setsPerMonth: 0,
-    repsPerWeek: 0,
-    repsPerMonth: 0,
-    avgWorkoutLoad: {},
-    est1RM: {}
-};
-
-// -----AVG VOLUME PER WEEK 
-// Returns date string in the format "YYYY-MM-DD" for X days ago
+// Returns YYYY-MM-DD for X days ago
 function getDateXDaysAgo(x) {
-    const date = new Date();
-    date.setDate(date.getDate() - x);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
+    const d = new Date();
+    d.setDate(d.getDate() - x);
+    return d.toISOString().split("T")[0];
 }
 
-// Calculates total volume for a given date (sum of weight * reps)
+// Returns array of YYYY-MM-DD between two dates
+function getDatesBetween(start, end) {
+    const dates = [];
+    const cur = new Date(start);
+
+    while (cur <= end) {
+        dates.push(cur.toISOString().split("T")[0]);
+        cur.setDate(cur.getDate() + 1);
+    }
+
+    return dates;
+}
+
+// ----------------------
+// METRIC CALCULATIONS
+// ----------------------
+
+// Total volume across ALL lifts for a day
 function calculateVolumeForDay(date) {
-    if (!data[date]) return 0; // no workouts for that date
-    let totalVolume = 0;
-    data[date].forEach(workout => {
-        workout.sets.forEach(set => {
-            totalVolume += set.weight * set.reps;
-        });
-    });
-    return totalVolume;
-}
-
-function calculateVolumeForWorkout(liftName, date) {
-    if (!data[date]) return 0; // no workouts on that date
-    let totalVolume = 0;
-
-    data[date].forEach(workout => { // each workout object in that date
-        if (workout.name === liftName) {
-            workout.sets.forEach(set => {
-                totalVolume += set.weight * set.reps;
-            });
-        }
-    });
-
-    return totalVolume;
-}
-
-function estimatedOneRepMax(workoutName, date) {
     if (!data[date]) return 0;
-    let max1RM = 0;
 
-    data[date].forEach(workout => {
-        if (workout.name === workoutName) {
-            workout.sets.forEach(set => {
-                const oneRM = set.weight * (1 + set.reps / 30); // Epley formula
-                if (oneRM > max1RM) max1RM = oneRM;
+    let total = 0;
+    data[date].forEach(w =>
+        w.sets.forEach(s => total += s.weight * s.reps)
+    );
+    return total;
+}
+
+// Total volume for ONE lift on a day
+function calculateVolumeForWorkout(lift, date) {
+    if (!data[date]) return 0;
+
+    let total = 0;
+    data[date].forEach(w => {
+        if (w.name === lift) {
+            w.sets.forEach(s => total += s.weight * s.reps);
+        }
+    });
+    return total;
+}
+
+// Estimated 1RM (Epley)
+function estimate1RM(lift, date) {
+    if (!data[date]) return 0;
+
+    let max = 0;
+    data[date].forEach(w => {
+        if (w.name === lift) {
+            w.sets.forEach(s => {
+                const est = s.weight * (1 + s.reps / 30);
+                max = Math.max(max, est);
             });
         }
     });
-
-    return max1RM;
+    return max;
 }
 
-// ----------------- Compute daily volume -----------------
-document.addEventListener("DOMContentLoaded", () => {
-    const vol = document.getElementById("volumeChart").getContext("2d");
-    let selectedLiftName = liftInput.value || "Bench Press";
-
-// ------------------------VOLUME ---------------------------------
-    // ---- WEEKLY DATA ----
-    function getWeeklyVolume() {
-        const dailyVolume = {};
-        for (let i = 6; i >= 0; i--) {
-            const dateStr = getDateXDaysAgo(i);
-            dailyVolume[dateStr] = calculateVolumeForDay(dateStr);
-        }
-        return dailyVolume;
-    }
-
-    // ---- MONTHLY DATA ----
-    function getMonthlyVolume() {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth() + 1; // 1–12
-
-        const daysInMonth = new Date(year, month, 0).getDate();
-
-        const monthlyVolume = {};
-
-        for (let day = 1; day <= daysInMonth; day++) {
-            const dayStr = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-            monthlyVolume[dayStr] = calculateVolumeForDay(dayStr);
-        }
-        return monthlyVolume;
-    }
-
-    // ---- INITIAL CHART (Weekly by default) ----
-    let weeklyData = getWeeklyVolume();
-
-    const volumeChart = new Chart(vol, {
-        type: "line",
-        data: {
-            labels: Object.keys(weeklyData),
-            datasets: [{
-                label: "Volume",
-                data: Object.values(weeklyData),
-                borderColor: "blue",
-                backgroundColor: "rgba(0,0,255,0.2)",
-                fill: true,
-                tension: 0.3
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: "Weekly Volume (Last 7 Days)"
-                }
-            },
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
+// ----------------------
+// RANGE COMPUTATION
+// ----------------------
+function volumeForRange(start, end) {
+    const out = {};
+    getDatesBetween(start, end).forEach(d => {
+        out[d] = calculateVolumeForDay(d);
     });
+    return out;
+}
 
-// ------------------------PRS ---------------------------------
-    
-
-// ------------------------TOTALS ---------------------------------
-    const totalsCh = document.getElementById("totalsChart").getContext("2d");
-
-    function getWeeklyTotals(workoutName){
-        const dailyVolume = {};
-        for (let i = 6; i >= 0; i--) {
-            const dateStr = getDateXDaysAgo(i);
-            dailyVolume[dateStr] = calculateVolumeForWorkout(workoutName, dateStr);
-        }
-        return dailyVolume;
-    }
-
-    function getMonthlyTotals(workoutName){
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth() + 1; // 1–12
-
-        const daysInMonth = new Date(year, month, 0).getDate();
-
-        const monthlyVolume = {};
-
-        for (let day = 1; day <= daysInMonth; day++) {
-            const dayStr = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-            monthlyVolume[dayStr] = calculateVolumeForWorkout(workoutName, dayStr);
-        }
-        return monthlyVolume;
-    }
-
-    let weeklyTotals = getWeeklyTotals(selectedLiftName); // default lift
-    const disTotalsText = "Weekly Totals for " + selectedLiftName + " (Last 7 Days)";
-
-    const totalsChart = new Chart(totalsCh, {
-        type: "line",
-        data: {
-            labels: Object.keys(weeklyTotals),
-            datasets: [{
-                label: "1RM",
-                data: Object.values(weeklyTotals),
-                borderColor: "blue",
-                backgroundColor: "rgba(0,0,255,0.2)",
-                fill: true,
-                tension: 0.3
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: disTotalsText
-                }
-            },
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
+function totalsForRange(lift, start, end) {
+    const out = {};
+    getDatesBetween(start, end).forEach(d => {
+        out[d] = calculateVolumeForWorkout(lift, d);
     });
+    return out;
+}
 
-// ------------------------FREQUENCY ---------------------------------
-
-
-// ------------------------SETS PER WEEK/MONTH ---------------------------------
-
-
-// ------------------------REPS PER WEEK/MONTH ---------------------------------
-
-
-// ------------------------AVERAGE WORKOUT LOAD ---------------------------------
-
-
-// ------------------------EST 1RM ---------------------------------
-// Epley formula 1RM = Weight * (1+(Reps/30))
-// x-axis = date - y axis = estimated 1RM
-    const oneRMCh = document.getElementById("oneRMChart").getContext("2d");
-
-    function getOneRMWeekly(workoutName){
-        const oneRM = {};
-        for (let i = 6; i >= 0; i--) {
-            const dateStr = getDateXDaysAgo(i);
-            oneRM[dateStr] = estimatedOneRepMax(workoutName, dateStr);
-        }
-        return oneRM;
-    }
-
-    function getOneRMMonthly(workoutName){
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth() + 1; // 1–12
-
-        const daysInMonth = new Date(year, month, 0).getDate();
-
-        const monthlyOneRM = {};
-
-        for (let day = 1; day <= daysInMonth; day++) {
-            const dayStr = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-            monthlyOneRM[dayStr] = estimatedOneRepMax(workoutName, dayStr);
-        }
-        return monthlyOneRM;
-    }
-
-    let oneRepMax = getOneRMWeekly(selectedLiftName); // default lift
-    const disEstText = "Weekly 1RM estimates " + selectedLiftName + " (Last 7 Days)";
-
-    const oneRMChart = new Chart(oneRMCh, {
-        type: "line",
-        data: {
-            labels: Object.keys(oneRepMax),
-            datasets: [{
-                label: "One rep max estimate",
-                data: Object.values(oneRepMax),
-                borderColor: "blue",
-                backgroundColor: "rgba(0,0,255,0.2)",
-                fill: true,
-                tension: 0.3
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: disEstText
-                }
-            },
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
+function oneRMForRange(lift, start, end) {
+    const out = {};
+    getDatesBetween(start, end).forEach(d => {
+        out[d] = estimate1RM(lift, d);
     });
+    return out;
+}
 
-// ---- BUTTON FUNCTIONALITY ----
-    document.getElementById("weeklyBtn").addEventListener("click", () => {
-        // volume data
-        const volData = getWeeklyVolume();
-        volumeChart.data.labels = Object.keys(volData);
-        volumeChart.data.datasets[0].data = Object.values(volData);
-        volumeChart.options.plugins.title.text = "Weekly Volume (Last 7 Days)";
-        volumeChart.update();
-        // totals data
-        const tData = getWeeklyTotals(selectedLiftName);
-        totalsChart.data.labels = Object.keys(tData);
-        totalsChart.data.datasets[0].data = Object.values(tData);
-        totalsChart.options.plugins.title.text = "Weekly Totals for " + selectedLiftName + " (Last 7 Days)";
-        totalsChart.update();
-        // 1RM data
-        const oData = getOneRMWeekly(selectedLiftName);
-        oneRMChart.data.labels = Object.keys(oData);
-        oneRMChart.data.datasets[0].data = Object.values(oData);
-        oneRMChart.options.plugins.title.text = "Weekly 1RM Estimation for " + selectedLiftName + " (Last 7 Days)";
-        oneRMChart.update();
-    });
+// ----------------------
+// PRESET WINDOWS
+// ----------------------
+function weeklyWindow() {
+    return volumeForRange(
+        new Date(Date.now() - 6 * 86400000),
+        new Date()
+    );
+}
 
-    document.getElementById("monthlyBtn").addEventListener("click", () => {
-        // volume data
-        const volData = getMonthlyVolume();
-        volumeChart.data.labels = Object.keys(volData);
-        volumeChart.data.datasets[0].data = Object.values(volData);
-        volumeChart.options.plugins.title.text = "Monthly Volume";
-        volumeChart.update();
-        // totals data
-        const tData = getMonthlyTotals(selectedLiftName);
-        totalsChart.data.labels = Object.keys(tData);
-        totalsChart.data.datasets[0].data = Object.values(tData);
-        totalsChart.options.plugins.title.text = "Monthly Totals for " + selectedLiftName;
-        totalsChart.update();
-        // 1RM data
-        const oData = getOneRMMonthly(selectedLiftName);
-        oneRMChart.data.labels = Object.keys(oData);
-        oneRMChart.data.datasets[0].data = Object.values(oData);
-        oneRMChart.options.plugins.title.text = "Monthly 1RM Estimation for " + selectedLiftName;
-        oneRMChart.update();
-    });
+function monthlyWindow() {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), 1);
+    return volumeForRange(start, now);
+}
 
-
-    // Changing lift by input
-    liftInput.addEventListener("change", () => {
-        const selectedLiftName = liftInput.value;
-
-        // Update totals chart
-        const tData = getWeeklyTotals(selectedLiftName);
-        totalsChart.data.labels = Object.keys(tData);
-        totalsChart.data.datasets[0].data = Object.values(tData);
-        totalsChart.options.plugins.title.text = "Totals for " + selectedLiftName;
-        totalsChart.update();
-
-        // Update 1RM chart
-        const oData = getOneRMWeekly(selectedLiftName);
-        oneRMChart.data.labels = Object.keys(oData);
-        oneRMChart.data.datasets[0].data = Object.values(oData);
-        oneRMChart.options.plugins.title.text = "1RM estimate for " + selectedLiftName;
-        oneRMChart.update();
-    });
-
+// ----------------------
+// CHART INITIALIZATION
+// ----------------------
+const volumeChart = new Chart(volumeCtx, {
+    type: "line",
+    data: { labels: [], datasets: [{ label: "Volume", data: [] }] },
+    options: { responsive: true }
 });
+
+const totalsChart = new Chart(totalsCtx, {
+    type: "line",
+    data: { labels: [], datasets: [{ label: "Totals", data: [] }] },
+    options: { responsive: true }
+});
+
+const oneRMChart = new Chart(oneRMCtx, {
+    type: "line",
+    data: { labels: [], datasets: [{ label: "1RM", data: [] }] },
+    options: { responsive: true }
+});
+
+// ----------------------
+// RENDER ALL CHARTS
+// ----------------------
+function renderCharts(volumeData, totalsData, oneRMData, titleSuffix) {
+    volumeChart.data.labels = Object.keys(volumeData);
+    volumeChart.data.datasets[0].data = Object.values(volumeData);
+    volumeChart.options.plugins = { title: { display: true, text: `Volume ${titleSuffix}` }};
+    volumeChart.update();
+
+    totalsChart.data.labels = Object.keys(totalsData);
+    totalsChart.data.datasets[0].data = Object.values(totalsData);
+    totalsChart.options.plugins = { title: { display: true, text: `Totals ${titleSuffix}` }};
+    totalsChart.update();
+
+    oneRMChart.data.labels = Object.keys(oneRMData);
+    oneRMChart.data.datasets[0].data = Object.values(oneRMData);
+    oneRMChart.options.plugins = { title: { display: true, text: `1RM ${titleSuffix}` }};
+    oneRMChart.update();
+}
+
+// ----------------------
+// BUTTON HANDLERS
+// ----------------------
+weeklyBtn.addEventListener("click", () => {
+    const lift = liftInput.value;
+    const end = new Date();
+    const start = new Date(Date.now() - 6 * 86400000);
+
+    renderCharts(
+        volumeForRange(start, end),
+        totalsForRange(lift, start, end),
+        oneRMForRange(lift, start, end),
+        "(Last 7 Days)"
+    );
+});
+
+monthlyBtn.addEventListener("click", () => {
+    const lift = liftInput.value;
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    renderCharts(
+        volumeForRange(start, now),
+        totalsForRange(lift, start, now),
+        oneRMForRange(lift, start, now),
+        "(This Month)"
+    );
+});
+
+applyBtn.addEventListener("click", () => {
+    const startVal = document.getElementById("startDate").value;
+    const endVal = document.getElementById("endDate").value;
+
+    if (!startVal || !endVal) {
+        alert("Select both dates");
+        return;
+    }
+
+    const lift = liftInput.value;
+    const start = new Date(startVal);
+    const end = new Date(endVal);
+
+    renderCharts(
+        volumeForRange(start, end),
+        totalsForRange(lift, start, end),
+        oneRMForRange(lift, start, end),
+        "(Custom Range)"
+    );
+});
+
+// ----------------------
+// INITIAL LOAD
+// ----------------------
+weeklyBtn.click();
